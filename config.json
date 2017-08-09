@@ -1,5 +1,5 @@
 {		
- "generic": {		
+ "generic": {
     "defaultSrc": "'self' cdvphotolibrary: http: https: data: gap: ws: wss: https://ssl.gstatic.com *.metatavu.io  www.madmikkeli.com 'unsafe-inline'",
     "styleSrc": "'self' http: https: *.metatavu.io www.madmikkeli.com 'unsafe-inline'",
     "mediaSrc": "*"		

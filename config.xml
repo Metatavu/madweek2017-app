@@ -7,7 +7,7 @@
     <access origin="https://ssl.gstatic.com" />
     <access origin="https://cdn.metatavu.io" />
     <access origin="https://www.gravatar.com" />
-    <access origin="http://www.madmikkeli.com/" />
+    <access origin="http://www.madmikkeli.com" />
     <allow-intent href="cdvphotolibrary://*/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -20,6 +20,7 @@
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     </config-file>
     <engine name="android" spec="^6.2.3" />
+    <engine name="browser" spec="^4.1.0" />
     <plugin name="com-sarriaroman-photoviewer" spec="^1.1.10" />
     <plugin name="cordova-plugin-camera" spec="^2.4.1">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />

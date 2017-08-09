@@ -1,0 +1,9 @@
+.event(data-id=event.id, data-start=event.start, data-end=event.end)
+  if event.image_url
+    .event-image-container
+      img.event-image(src=event.image_url)
+  h3.event-title
+    =event.event_subtitle
+  div.event-details
+    !=event.details
+  
