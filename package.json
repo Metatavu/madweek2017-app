@@ -1,0 +1,54 @@
+{
+    "name": "madweek2017-app",
+    "version": "0.0.1",
+    "description": "Mikkeli Art & Design Week",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Metatavu Oy",
+    "license": "AGPL-3.0",
+    "dependencies": {
+        "com-sarriaroman-photoviewer": "^1.1.10",
+        "cordova-android": "^6.2.3",
+        "cordova-plugin-add-swift-support": "^1.6.0",
+        "cordova-plugin-camera": "^2.4.1",
+        "cordova-plugin-compat": "^1.1.0",
+        "cordova-plugin-dialogs": "^1.3.3",
+        "cordova-plugin-file": "^4.3.3",
+        "cordova-plugin-file-transfer": "^1.6.3",
+        "cordova-plugin-firebase": "^0.1.23",
+        "cordova-plugin-photo-library": "^2.0.4",
+        "cordova-plugin-whitelist": "^1.3.2"
+    },
+    "devDependencies": {
+        "babel-preset-env": "^1.5.1",
+        "babel-preset-es2015": "^6.24.1",
+        "grunt": "^1.0.1",
+        "grunt-babel": "^6.0.0",
+        "grunt-bower-task": "^0.5.0",
+        "grunt-contrib-pug": "^1.0.0",
+        "grunt-contrib-sass": "^1.0.0",
+        "grunt-wiredep": "^3.0.1",
+        "load-grunt-tasks": "^3.5.2",
+        "wiredep": "^4.0.0"
+    },
+    "cordova": {
+        "platforms": [
+            "android"
+        ],
+        "plugins": {
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-camera": {
+                "CAMERA_USAGE_DESCRIPTION": " ",
+                "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
+            },
+            "cordova-plugin-file-transfer": {},
+            "com-sarriaroman-photoviewer": {},
+            "cordova-plugin-firebase": {},
+            "cordova-plugin-photo-library": {
+                "PHOTO_LIBRARY_USAGE_DESCRIPTION": "To choose photos"
+            },
+            "cordova-plugin-dialogs": {}
+        }
+    }
+}
