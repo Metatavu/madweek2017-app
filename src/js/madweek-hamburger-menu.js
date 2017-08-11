@@ -24,7 +24,7 @@
     
     _closeMenu: function () {
       $(".side-menu").removeClass('menu-open');
-      $(".side-menu").hide("slide", { direction: "left" }, 200);
+      $(".side-menu").hide("slide", { direction: "right" }, 200);
     },
     
     _openMenu: function () {

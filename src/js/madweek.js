@@ -13,27 +13,14 @@
       $(this.element).madweekWordpress();
       $(this.element).madweekEvents();
       $(this.element).madweekHamburgerMenu();
-      $(this.element).madweekWordpress('listEvents')
-        .then((events) => {
-          for (let i = 0; i < events.length; i++) {
-            const event = events[i];
-    
-            const html = pugEvent({
-              event: event
-            });
-
-            $('.content').append(html);
-          }
-        })
-        .catch((err) => {
-          console.log("ERR:" + err);
-        });
     },
     
     changePage: function (pageIndex, data) {
       if (pageIndex !== this.activePage) {
         this.activePage = pageIndex;
-        $(".content").empty();
+        $(".content-wrapper").empty();
+        
+        $(".content-wrapper").append('<div class="loader"></div>');
         
         switch (pageIndex) {
           case '0':
