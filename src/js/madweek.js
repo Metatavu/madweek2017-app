@@ -11,6 +11,8 @@
     
     _create : function() {
       $(this.element).madweekWordpress();
+      $(this.element).madweekEvents();
+      $(this.element).madweekHamburgerMenu();
       $(this.element).madweekWordpress('listEvents')
         .then((events) => {
           for (let i = 0; i < events.length; i++) {
@@ -20,12 +22,29 @@
               event: event
             });
 
-            $('.events-container').append(html);
+            $('.content').append(html);
           }
         })
         .catch((err) => {
           console.log("ERR:" + err);
         });
+    },
+    
+    changePage: function (pageIndex, data) {
+      if (pageIndex !== this.activePage) {
+        this.activePage = pageIndex;
+        $(".content").empty();
+        
+        switch (pageIndex) {
+          case '0':
+            $(this.element).madweekEvents('createEventList');
+            break;
+          case '1':
+            $(this.element).madweekEvents('openEventsByDate', data);
+            break;
+          default:
+        }
+      }
     }
     
   });

@@ -18,9 +18,27 @@ html
     script(src='https://cdn.metatavu.io/libs/tools/debug/0.0.4/debug.js')
     script(src='js/madweek-wordpress.js')
     script(src='js/madweek.js')
+    script(src='js/madweek-events.js')
+    script(src='js/madweek-hamburger-menu.js')
     title Mikkeli Art & Design Week 2017
   body
-    h1
-      |Mikkeli Art & Design Week 2017
-    .events-container
-      |E-Ventsit
+    nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.navbar-top
+      .container-fluid
+        .row.no-gutters
+          .col-2.flex-last
+            a.btn.menu-btn.hamburger-menu-button(data-toggle='collapse', href='#')
+              i.fa.fa-bars
+          .col-8
+            a.top-logo-container(href='#', alt='...')
+              img.top-logo(src='')
+          .col-2.flex-first
+            a.settings-btn
+              img.settings-icon(src='', alt='...')
+    .side-menu
+      ul
+      li.menu-item.events(data-pageIndex='0') Tapahtumat
+    .content
+      h1
+        |Mikkeli Art & Design Week 2017
+      .events-container
+        |E-Ventsit
