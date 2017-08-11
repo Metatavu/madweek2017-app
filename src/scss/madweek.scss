@@ -19,7 +19,7 @@
 }
 
 .event-title {
-  color: #CA3374;
+  color: #ca3374;
 }
 
 body {
@@ -34,7 +34,7 @@ body {
   height: 100%;
 }
 
-.navbar-top{
+.navbar-top {
   padding: 0;
   margin: 0;
   position: fixed;
@@ -53,8 +53,8 @@ body {
   }
   
   .navbar-toggler {
-    color: #CA3374;
-    border: none;
+    color: #ca3374;
+    border: 0;
     
     &:hover {
       color: #fff;
@@ -66,7 +66,7 @@ body {
   }
   
   .menu-btn {
-    color: #CA3374;
+    color: #ca3374;
     font-size: 30px;
     
     &:focus {
@@ -120,11 +120,11 @@ body {
   border-bottom: 1px solid #000000;
   
   h3 {
-    color: #CA3374;
+    color: #ca3374;
     text-transform: capitalize;
   }
   
-  p{
+  p {
     margin-bottom: 0;
   }
 }
