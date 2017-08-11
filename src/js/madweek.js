@@ -10,7 +10,6 @@
     },
     
     _create : function() {
-      this.activePage;
       $(this.element).madweekWordpress();
       $(this.element).madweekEvents();
       $(this.element).madweekHamburgerMenu();

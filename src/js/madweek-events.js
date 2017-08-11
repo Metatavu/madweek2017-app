@@ -10,7 +10,6 @@
     },
     
     _create : function() {
-      this.selectedDate;
       this.element.on('click', '.event-list-item', $.proxy(this._onEventListItemClick, this));
     },
     
