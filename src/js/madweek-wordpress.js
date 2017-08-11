@@ -27,6 +27,7 @@
           const events = [];
           
           _.forEach(result.events, (event, id) => {
+            event.start = parseInt(event.start) * 1000;
             events.push(Object.assign(event, {
               id: id
             }));

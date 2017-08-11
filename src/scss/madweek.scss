@@ -25,6 +25,10 @@ body {
   min-height: 100%;
 }
 
+.event-list-item h3 {
+  text-transform: capitalize;
+}
+
 .navbar-top {
   height: 50px;
 }

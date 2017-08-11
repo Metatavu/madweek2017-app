@@ -69,35 +69,13 @@
     },
     
     _formatEventTime: function (timestamp) {
-      let weekDay;
-      let stamp = parseInt(timestamp);
-      const date = new Date(stamp * 1000);
+      moment.locale("fi");
+      const stamp = parseInt(timestamp);
+      const date = new Date(stamp);
       const day = date.getDay();
-      const time = `${date.getDate()}.${date.getMonth() + 1}`;
+      const time = moment(date).format('DD.M');
+      const weekDay = moment(date).format('dddd');
       
-      switch (day) {
-        case 0:
-          weekDay = "Sunnuntai";
-          break;
-        case 1:
-          weekDay = "Maanantai";
-          break;
-        case 2:
-          weekDay = "Tiistai";
-          break;
-        case 3:
-          weekDay = "Keskiviikko";
-          break;
-        case 4:
-          weekDay = "Torstai";
-          break;
-        case 5:
-          weekDay = "Perjantai";
-          break;
-        case 6:
-          weekDay = "Lauantai";
-          break;
-      }
       return {
         weekDay: weekDay,
         eventTime: time,
@@ -109,8 +87,8 @@
       const fisrtStamp = parseInt(firstTime);
       const secondStamp = parseInt(secondTime);
       
-      const date1 = moment(new Date(fisrtStamp * 1000));
-      const date2 = moment(new Date(secondStamp * 1000));
+      const date1 = moment(new Date(fisrtStamp));
+      const date2 = moment(new Date(secondStamp));
       
       return date1.diff(date2, 'days');
     },
