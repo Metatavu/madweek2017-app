@@ -1,0 +1,9 @@
+h3 Käynnissä olevat tapahtumat
+.active-events
+  each activeEvent in activeEvents
+    p=activeEvent.name
+
+h3 Tulevat tapahtumat
+.coming-events
+  each  comingEvent in comingEvents
+    p=comingEvent.name

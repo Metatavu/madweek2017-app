@@ -28,6 +28,7 @@
           
           _.forEach(result.events, (event, id) => {
             event.start = parseInt(event.start) * 1000;
+            event.end = parseInt(event.end) * 1000;
             events.push(Object.assign(event, {
               id: id
             }));
