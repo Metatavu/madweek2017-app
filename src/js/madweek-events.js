@@ -27,10 +27,28 @@
     
     openEventsByDate: function (data) {  
       const html = pugEventSwiper();
-      $(".content").append(html);
+      $(".content-wrapper").append(html);
       
       this.horizontalSwiper = new Swiper('.swiper-container', { });
+      this.horizontalSwiper.on('onSlideChangeEnd', (swiper) => {this._onSlideChangeEnd(swiper); });
+      
       this._renderEventElements();
+    },
+    
+    _onSlideChangeEnd: function (swiper) {
+      this._resizeSlides();
+    },
+    
+    _resizeSlides: function () {
+      $('.swiper-slide-active').css({
+        'height': 'auto',
+        'min-height': 'calc(100vh - 50px)'
+      });
+      
+      $('.swiper-slide:not(.swiper-slide-active)').css({
+        'height': '0',
+        'min-height': '0'
+      });
     },
     
     _renderEventElements: function () {
@@ -45,24 +63,30 @@
             }
           });
           
+          $(".loader").remove();
+          
           eventsFiltered.forEach((event) => {
             const html = pugEvent({
               event: event
             });
             
             $(".swiper-wrapper").append(html);
-          });  
+          });
+          this.horizontalSwiper.update();
+          this._resizeSlides();
         });
     },
     
     _renderEventList: function (weekDays) {
+      $(".loader").remove();
+      
       weekDays.forEach((weekDay) => {
         const html = pugEventListItem({
           weekDay: weekDay.weekDay,
           eventTime: weekDay.eventTime,
           timestamp: weekDay.timestamp
         });
-        $(".content").append(html);
+        $(".content-wrapper").append(html);
       });
       
     },
@@ -97,7 +121,7 @@
       const timestamp = $(e.target).closest('.event-list-item').attr('data-date');
       this.selectedDate = timestamp;
       
-      $(".content").empty();
+      $(".content-wrapper").empty();
       $(this.element).madweek('changePage', pageIndex, timestamp);
     },
     

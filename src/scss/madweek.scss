@@ -1,13 +1,25 @@
 @import "fonts";
 
-
-html, 
-body {
-  min-height: 100vh;
+.loader {
+  width: 100%;
+  height: 96vh;
+  background-image: url("../gfx/loading.svg");
+  background-repeat: no-repeat;
+  background-position: center 120px;
+  z-index: 555;
 }
 
 .event-image {
   max-width: 100%;
+}
+
+.event-content {
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.event-title {
+  color: #ca3374;
 }
 
 body {
@@ -22,12 +34,99 @@ body {
   height: 100%;
 }
 
-.content {
-  min-height: 100%;
+.navbar-top {
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  border-bottom: 2px solid #000000;
+  z-index: 55;
+  top: 0;
+  width: 100%;
+  
+  .container-fluid {
+    padding: 0;
+    margin: 0; 
+  }
+  
+  &.bg-faded {
+    background-color: #fff;
+  }
+  
+  .navbar-toggler {
+    color: #ca3374;
+    border: 0;
+    
+    &:hover {
+      color: #fff;
+    }
+    
+    &:focus {
+      color: #fff;
+    }
+  }
+  
+  .menu-btn {
+    color: #ca3374;
+    font-size: 30px;
+    
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  
+  .top-logo {
+    height: 60px;
+    width: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: -5px;
+  }
+  
+  .settings-icon {
+    height: 25px;
+    width: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  
 }
 
-.event-list-item h3 {
-  text-transform: capitalize;
+.content {
+  min-height: 94vh;
+  background-image: url("../gfx/mad_tausta.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-top: 50px;
+  box-sizing: border-box;
+  
+  h1 {
+    text-align: center;
+  }
+  
+  .content-wrapper {
+    width: 100%;
+    min-height: 94vh;
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.event-list-item {
+  text-align: center;
+  padding: 5px;
+  border-bottom: 1px solid #000000;
+  
+  h3 {
+    color: #ca3374;
+    text-transform: capitalize;
+  }
+  
+  p {
+    margin-bottom: 0;
+  }
 }
 
 .navbar-top {
@@ -37,12 +136,29 @@ body {
 .side-menu {
   width: 100%;
   height: 90vh;
-  z-index: 50;
+  z-index: 100;
   position: absolute;
   top: 50px;
   left: 0;
   display: none;
   background-color: #fff;
+  
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+    font-size: 20px;
+    list-style-type: none;
+  }
 }
 
 .events-container {
@@ -51,23 +167,12 @@ body {
 
 .swiper-container {
   width: 100%;
-  height: 100%;
 }
 
 .swiper-slide {
-  text-align: center;
   font-size: 18px;
-  background: #fff;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
 }
