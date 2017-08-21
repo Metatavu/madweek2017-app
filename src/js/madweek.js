@@ -12,31 +12,53 @@
     _create : function() {
       $(this.element).madweekWordpress();
       $(this.element).madweekEvents();
-      $(this.element).madweekHamburgerMenu();
+      $(this.element).madweekImage();
+      $(this.element).madweekMap();
       
-      this.changePage('0', null);
+      this.element.on('click', '.nav-item', $.proxy(this._onMenuItemClick, this));
+      
+      this.changePage('index', null);
     },
     
-    changePage: function (pageIndex, data) {
-      if (pageIndex !== this.activePage) {
-        this.activePage = pageIndex;
-        $(".content-wrapper").empty();
-        
-        $(".content-wrapper").append('<div class="loader"></div>');
-        
-        switch (pageIndex) {
-          case '0':
-            this._loadMainPageEvents();
-            break;
-          case '1':
-            $(this.element).madweekEvents('createEventList');
-            break;
-          case '2':
-            $(this.element).madweekEvents('openEventsByDate', data);
-            break;
-          default:
-        }
+    changePage: function (page) {
+      this.activePage = page;
+      $(".content").empty();
+      $("#map").hide();
+      $('.content').show();
+      $(".content").append('<div class="loader"></div>');
+
+      switch (page) {
+        case 'index':
+          this._loadMainPageEvents();
+        break;
+        case 'event-list':
+          $(this.element).madweekEvents('createEventList');
+        break;
+        case 'image':
+          $(this.element).madweekImage('startCamera');
+        break;
+        case 'map':
+          $(this.element).madweekMap('renderMapPage');
+        break;
+        case 'info':
+           this._loadInfoPage();
+        break;
+        default:
       }
+    },
+    
+    resetView: function() {
+      const viewToReset = this.activePage ? this.activePage : 'index';
+      this.changePage(viewToReset);
+    },
+    
+    _loadInfoPage: function() {
+      $(this.element).madweekWordpress('getInfo')
+        .then((info) => {
+          $(".loader").remove();
+          const wrappedInfo = $('<div>').addClass('info-container').append(info);
+          $(".content").append(wrappedInfo);
+        });
     },
     
     _loadMainPageEvents: function () {
@@ -55,17 +77,25 @@
           comingEvents = comingEvents.sort((a, b) =>  {
             return a.start - b.start;
           });
-          
-          console.log(activeEvents);
-          console.log(comingEvents);
+
           const html = pugMainPageEvents({
             activeEvents: activeEvents.slice(0,5),
             comingEvents: comingEvents.slice(0,5)
           });
           
           $(".loader").remove();
-          $(".content-wrapper").append(html);
+          $(".content").append(html);
         });
+    },
+    
+    _onMenuItemClick: function(e) {
+      e.preventDefault();
+      $('.nav-item').removeClass('active');
+      const navItem = $(e.target).closest('.nav-item');
+      navItem.addClass('active');
+      const page = navItem.attr('data-page');   
+      this.changePage(page);
+      $('.navbar-collapse').collapse('hide');
     }
     
   });

@@ -1,0 +1,13 @@
+#event-list-accordion(role='tablist', aria-multiselectable='true')
+  each eventData in eventDatas
+    .card
+      .card-header(role='tab')
+        a.collapsed(data-toggle='collapse', href='#event-list-' + eventData.slug)
+          =eventData.weekDay
+      .collapse(data-parent='#event-list-accordion', role='tabpanel', id='event-list-' + eventData.slug)
+        .card-block
+          ul.list-unstyled
+            each event in eventData.events
+             li.event-list-item-container
+                a.event-list-item(href='#', data-slug=eventData.slug, data-event-id=event.id)
+                  !=event.timeString + ' ' + event.name

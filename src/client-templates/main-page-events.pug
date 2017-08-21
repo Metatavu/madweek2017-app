@@ -1,0 +1,18 @@
+.card.index-card
+  .card-header
+    | Käynnissä olevat tapahtumat
+  ul.list-group.list-group-flush
+    if !activeEvents.length
+      li.list-group-item Ei käynnissä olevia tapahtumia
+    else
+      each activeEvent in activeEvents
+        li.index-event-btn.list-group-item(data-event-id=activeEvent.id) #{activeEvent.name}
+.card.index-card
+  .card-header
+    | Tulevat tapahtumat
+  ul.list-group.list-group-flush
+    if !comingEvents.length
+      li.list-group-item Ei tulevia tapahtumia
+    else
+      each comingEvent in comingEvents
+        li.index-event-btn.list-group-item(data-event-id=comingEvent.id) #{comingEvent.name}

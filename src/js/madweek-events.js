@@ -1,5 +1,5 @@
 /* jshint esversion: 6 */
-/* global getConfig, StatusBar, WPAPI, Promise */
+/* global getConfig, StatusBar, WPAPI, Promise, moment, _ */
 
 (function(){
   'use strict';
@@ -11,28 +11,81 @@
     
     _create : function() {
       this.element.on('click', '.event-list-item', $.proxy(this._onEventListItemClick, this));
+      this.element.on('click', '.index-event-btn', $.proxy(this._onIndexEventBtnClick, this));
+      this.element.on('click', '.close-events-btn', $.proxy(this._onCloseEventBtnClick, this));
     },
     
     createEventList: function () {
       $(this.element).madweekWordpress('listEvents')
         .then((events) => {
-          let weekDays = events.map(event => {
-            return this._formatEventTime(event.start);
+          const result = {};
+          const resultArray = [];
+          for (let i = 0; i < events.length; i++) {
+            let event = events[i];
+            let dateSlug =  this._capitalizeFirstLetter(moment.utc(event.start).format('dddd-D'));
+            if (!result[dateSlug]) {
+              result[dateSlug] = {
+                weekDay: moment.utc(event.start).format('dddd D.M.'),
+                events: _.filter(events, (event) => { return event['event_type'].indexOf(dateSlug) > -1; }),
+                slug: dateSlug,
+                dayStart: moment.utc(event.start).startOf('day').unix()
+              }
+            }
+          }
+          
+          _.forEach(result, (eventData, key) => {
+            eventData.events.sort((a, b) => {
+              return moment(a.start).hours() - moment(b.start).hours();
+            });
+            resultArray.push(eventData);
+          });
+
+          resultArray.sort((a, b) => {
+            return a.dayStart - b.dayStart;
           });
           
-          weekDays = this.removeDuplicates(weekDays, 'eventTime');
-          this._renderEventList(weekDays);
+          $(".loader").remove();
+          $(".content").append(pugEventList({
+            eventDatas: resultArray
+          }));
         });
     },
+
+    openAllEventsView: function (id) {
+      $(this.element).madweekWordpress('listEvents')
+        .then((events) => {
+          events.sort((a, b) => {
+            return moment(a.start).hours() - moment(b.start).hours();
+          });
+
+        this._renderEventElements(events, id);
+      });
+    },
     
-    openEventsByDate: function (data) {  
-      const html = pugEventSwiper();
-      $(".content-wrapper").append(html);
-      
-      this.horizontalSwiper = new Swiper('.swiper-container', { });
-      this.horizontalSwiper.on('onSlideChangeEnd', (swiper) => {this._onSlideChangeEnd(swiper); });
-      
-      this._renderEventElements();
+    openEventsByDate: function (selectedSlug, id) {
+      $(this.element).madweekWordpress('listEventsByEventType', selectedSlug)
+        .then((events) => {
+          events.sort((a, b) => {
+            return moment(a.start).hours() - moment(b.start).hours();
+          });
+
+        this._renderEventElements(events, id);
+      });
+    },
+    
+    openEventsByLocationName: function (locationName, id) {
+      $(this.element).madweekWordpress('listEventsByLocationName', locationName)
+        .then((events) => {
+          events.sort((a, b) => {
+            return moment(a.start).hours() - moment(b.start).hours();
+          });
+
+        this._renderEventElements(events, id);
+      });
+    },
+    
+    _capitalizeFirstLetter: function(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
     },
     
     _onSlideChangeEnd: function (swiper) {
@@ -51,59 +104,34 @@
       });
     },
     
-    _renderEventElements: function () {
-      $(this.element).madweekWordpress('listEvents')
-        .then((events) => {
-          let eventsFiltered = [];
-          events.forEach((event) => {
-            const dateDifference = this._checkDateDifference(event.start, this.selectedDate);
-            
-            if (dateDifference === 0) {
-              eventsFiltered.push(event);
-            }
-          });
-          
-          $(".loader").remove();
-          
-          eventsFiltered.forEach((event) => {
-            const html = pugEvent({
-              event: event
-            });
-            
-            $(".swiper-wrapper").append(html);
-          });
-          this.horizontalSwiper.update();
-          this._resizeSlides();
-        });
-    },
-    
-    _renderEventList: function (weekDays) {
-      $(".loader").remove();
+    _renderEventElements: function (events, id) {
+      $(".content").append(pugEventSwiper());
       
-      weekDays.forEach((weekDay) => {
-        const html = pugEventListItem({
-          weekDay: weekDay.weekDay,
-          eventTime: weekDay.eventTime,
-          timestamp: weekDay.timestamp
-        });
-        $(".content-wrapper").append(html);
+      this.horizontalSwiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationType: 'fraction',
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev'
       });
-      
-    },
-    
-    _formatEventTime: function (timestamp) {
-      moment.locale("fi");
-      const stamp = parseInt(timestamp);
-      const date = new Date(stamp);
-      const day = date.getDay();
-      const time = moment(date).format('DD.M');
-      const weekDay = moment(date).format('dddd');
-      
-      return {
-        weekDay: weekDay,
-        eventTime: time,
-        timestamp: stamp
-      };
+
+      this.horizontalSwiper.on('onSlideChangeEnd', (swiper) => {this._onSlideChangeEnd(swiper); });
+          
+      $(".loader").remove();
+      const idSlideIndexMap = {};
+
+      events.forEach((event, index) => {
+        idSlideIndexMap[event.id] = index;
+        const html = pugEvent({
+          event: event
+        });
+
+        $(".swiper-wrapper").append(html);
+      });
+      this.horizontalSwiper.update();
+      this._resizeSlides();
+      if (id) {
+        this.horizontalSwiper.slideTo(idSlideIndexMap[id]);
+      }
     },
     
     _checkDateDifference: function (firstTime, secondTime) {
@@ -117,18 +145,22 @@
     },
     
     _onEventListItemClick: function (e) {
-      const pageIndex = $(e.target).closest('.event-list-item').attr('data-pageIndex');
-      const timestamp = $(e.target).closest('.event-list-item').attr('data-date');
-      this.selectedDate = timestamp;
+      const selectedSlug = $(e.target).closest('.event-list-item').attr('data-slug');
+      const selectedId = $(e.target).closest('.event-list-item').attr('data-event-id');
       
-      $(".content-wrapper").empty();
-      $(this.element).madweek('changePage', pageIndex, timestamp);
+      $(".content").empty();
+      this.openEventsByDate(selectedSlug, selectedId);
     },
     
-    removeDuplicates: function(arr, key) {
-      return arr.filter((obj, index, arr) => {
-        return arr.map(mapObj => mapObj[key]).indexOf(obj[key]) === index;
-      });
+    _onIndexEventBtnClick: function (e) {
+      const selectedId = $(e.target).closest('.index-event-btn').attr('data-event-id');
+      
+      $(".content").empty();
+      this.openAllEventsView(selectedId);
+    },
+    
+    _onCloseEventBtnClick: function() {
+      $(this.element).madweek('resetView');
     }
     
   });

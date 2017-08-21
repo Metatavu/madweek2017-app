@@ -17,25 +17,28 @@ html
     script(src='js/pug-templates.js')
     // script(src='https://cdn.metatavu.io/libs/tools/debug/0.0.4/debug.js')
     script(src='js/madweek-wordpress.js')
-    script(src='js/madweek.js')
     script(src='js/madweek-events.js')
-    script(src='js/madweek-hamburger-menu.js')
+    script(src='js/madweek-image.js')
+    script(src='js/madweek-map.js')
+    script(src='js/madweek.js')
     title Mikkeli Art & Design Week 2017
   body
-    nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.navbar-top
-      .container-fluid
-        .row.no-gutters
-          .col-2.flex-last
-            a.btn.menu-btn.hamburger-menu-button(data-toggle='collapse', href='#')
-              i.fa.fa-bars
-          .col-8
-            a.top-logo-container(href='#', alt='...')
-              img.top-logo(src='gfx/mad-logo.png')
-          .col-2.flex-first
-    .side-menu
-      ul
-        li.menu-item.events(data-pageIndex='1') Tapahtumat
+    nav.navbar.fixed-top.navbar-toggleable-md.navbar-inverse.bg-inverse
+      button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarToggle', aria-controls='navbarToggle', aria-expanded='false', aria-label='Toggle navigation')
+        i.fa.fa-ellipsis-v
+      a.navbar-brand(href='#')
+        img.top-logo(src='gfx/mad-logo.png')
+      #navbarToggle.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto.mt-2.mt-md-0
+          li.nav-item.active(data-page='index')
+            a.nav-link(href='#') Etusivu 
+          li.nav-item(data-page='event-list')
+            a.nav-link(href='#') Tapahtumat
+          li.nav-item(data-page='image')
+            a.nav-link(href='#') Ota kuva 
+          li.nav-item(data-page='info')
+            a.nav-link(href='#') Info 
+          li.nav-item(data-page='map')
+            a.nav-link(href='#') Kartta
     .content
-      .content-wrapper
-        h1
-          |Mikkeli Art & Design Week 2017
+    #map

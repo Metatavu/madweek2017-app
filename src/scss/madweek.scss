@@ -1,5 +1,16 @@
 @import "fonts";
 
+html, body, #map {
+  height: 100%;
+}
+
+body {
+  background: #eee;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 125px;
+}
+
 .loader {
   width: 100%;
   height: 96vh;
@@ -9,6 +20,19 @@
   z-index: 555;
 }
 
+.info-container {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#map {
+  display: none;
+}
+
+.leaflet-tile {
+  filter: sepia(85%) grayscale(30%);
+}
+
 .event-image {
   max-width: 100%;
 }
@@ -16,10 +40,12 @@
 .event-content {
   box-sizing: border-box;
   padding: 10px;
+  padding-left: 35px;
+  padding-right: 35px;
 }
 
 .event-title {
-  color: #ca3374;
+  font-weight: bold;
 }
 
 body {
@@ -34,104 +60,57 @@ body {
   height: 100%;
 }
 
-.navbar-top {
-  padding: 0;
-  margin: 0;
-  position: fixed;
-  border-bottom: 2px solid #000000;
-  z-index: 55;
-  top: 0;
-  width: 100%;
+.navbar.fixed-top {
+  padding-top: 0;
+  padding-bottom: 0;
   
-  .container-fluid {
-    padding: 0;
-    margin: 0; 
+  &.bg-inverse {
+    background: url("../gfx/mad-header.jpg") !important;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   
-  &.bg-faded {
-    background-color: #fff;
+  .nav-link {
+    color: #eee4d7;
+    font-weight: bold;
   }
   
   .navbar-toggler {
-    color: #ca3374;
-    border: 0;
-    
-    &:hover {
-      color: #fff;
-    }
-    
-    &:focus {
-      color: #fff;
+    border: none;
+
+    .fa {
+      font-size: 30px;
+      color: #eee4d7;
+      padding-top: 15px;
     }
   }
-  
-  .menu-btn {
-    color: #ca3374;
-    font-size: 30px;
-    
-    &:focus {
-      box-shadow: none;
-    }
-  }
-  
-  .top-logo {
-    height: 60px;
-    width: auto;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    margin-top: -5px;
-  }
-  
-  .settings-icon {
-    height: 25px;
-    width: auto;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-  }
-  
+}
+.top-logo {
+  width: 100%;
+  max-width: 250px;
 }
 
 .content {
-  min-height: 94vh;
-  background-image: url("../gfx/mad_tausta.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  margin-top: 50px;
-  box-sizing: border-box;
   
   h1 {
     text-align: center;
   }
-  
-  .content-wrapper {
-    width: 100%;
-    min-height: 94vh;
-    background-color: rgba(255, 255, 255, 0.3);
+
+  .index-card {
+    margin-top: 15px;
   }
 }
 
-.event-list-item {
-  text-align: center;
-  padding: 5px;
-  border-bottom: 1px solid #000000;
-  
-  h3 {
-    color: #ca3374;
-    text-transform: capitalize;
+.event-list-item-container {
+  &:not(:last-child) {
+   padding-bottom: 10px; 
   }
   
-  p {
-    margin-bottom: 0;
+  .event-list-item {
+    color: #000; 
   }
 }
 
-.navbar-top {
-  height: 50px;
-}
 
 .side-menu {
   width: 100%;
@@ -165,8 +144,30 @@ body {
   display: none;
 }
 
+.close-events-btn {
+  font-size: 32px;
+  color: #d6567d;
+  position: fixed;
+  top: 125px;
+  right: 15px;
+  z-index: 2;
+}
+
 .swiper-container {
   width: 100%;
+
+  .swiper-pagination {
+    position: fixed;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    bottom: 0;
+  }
+  
+  .swiper-button-next, .swiper-button-prev {
+    position: fixed;
+    top: 60%;
+  }
 }
 
 .swiper-slide {
