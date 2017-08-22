@@ -1,3 +1,11 @@
 body {
-  padding-top: 20px;
+  padding-top: 135px;	
+}
+
+.navbar.fixed-top {
+  padding-top: 10px;
+}
+
+.close-events-btn {
+  top: 135px;
 }

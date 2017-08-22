@@ -6,7 +6,8 @@
       li.list-group-item Ei käynnissä olevia tapahtumia
     else
       each activeEvent in activeEvents
-        li.index-event-btn.list-group-item(data-event-id=activeEvent.id) #{activeEvent.name}
+        li
+          a.index-event-btn.list-group-item(href='#', data-event-id=activeEvent.id) #{activeEvent.name}
 .card.index-card
   .card-header
     | Tulevat tapahtumat
@@ -15,4 +16,5 @@
       li.list-group-item Ei tulevia tapahtumia
     else
       each comingEvent in comingEvents
-        li.index-event-btn.list-group-item(data-event-id=comingEvent.id) #{comingEvent.name}
+        li
+          a.index-event-btn.list-group-item(href='#', data-event-id=comingEvent.id) #{comingEvent.name}
