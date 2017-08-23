@@ -59,13 +59,17 @@
         });
 
         this.render(function() {
-          window.canvas2ImagePlugin.saveImageDataToLibrary((filePath) => {
-            PhotoViewer.show(filePath);
+          const imageData = this.toBase64('png');
+          cordova.base64ToGallery(imageData, {
+            prefix: 'img_',
+            mediaScanner: true
+          }, function(path) {
+            PhotoViewer.show(imageData);
             $(document.body).madweek('changePage', 'index');
-          }, (err) => {
+          }, function(err) {
             $(document.body).madweek('changePage', 'index');
             console.log(err);
-          }, this.canvas);
+          });
         });
       }); 
     },
