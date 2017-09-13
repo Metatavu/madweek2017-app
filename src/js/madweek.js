@@ -1,5 +1,5 @@
 /* jshint esversion: 6 */
-/* global getConfig */
+/* global getConfig, moment */
 
 (function(){
   'use strict';
@@ -10,6 +10,8 @@
     },
     
     _create : function() {
+       moment.locale('fi');
+      
       $(this.element).madweekWordpress();
       $(this.element).madweekEvents();
       $(this.element).madweekImage();
@@ -75,30 +77,71 @@
         });
     },
     
+    _isEventEndedToday: function(event) {
+      const now = moment();
+      const eventEnd = moment.utc(event.end);
+      if (now.hours() > eventEnd.hours()) {
+        return true;
+      } else if (eventEnd.hours() > now.hours()) {
+        return false;
+      } else {
+        if (eventEnd.minutes() > now.minutes()) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+    
+    _isEventStartedToday: function(event) {
+      const now = moment();
+      const eventStart = moment.utc(event.start);
+      if (now.hours() > eventStart.hours()) {
+        return true;
+      } else if (eventStart.hours() > now.hours()) {
+        return false;
+      } else {
+        if (eventStart.minutes() > now.minutes()) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+    
+    _capitalizeFirstLetter: function(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+    
     _loadMainPageEvents: function () {
-      $(this.element).madweekWordpress('listEvents')
+      const dateSlug = this._capitalizeFirstLetter(moment().format('dddd-D'));
+      $(this.element).madweekWordpress('listEventsByEventType', dateSlug)
         .then((events) => {
-          const now = new Date().getTime();
-  
-          let activeEvents = events.filter((event) => {
-            return event.start < now && event.end > now;
+          events.sort((a, b) => {
+            return moment(a.start).hours() - moment(b.start).hours();
           });
-          
-          let comingEvents = events.filter((event) => {
-            return event.start > now;
-          }).sort();
-          
-          comingEvents = comingEvents.sort((a, b) =>  {
-            return a.start - b.start;
-          });
+          const activeEvents = [];
+          const comingEvents = [];
+          for (let i = 0; i < events.length; i++) {
+            let event = events[i];
+            if (this._isEventEndedToday(event)) {
+              continue;
+            }
+            if (this._isEventStartedToday(event)) {
+              activeEvents.push(event);
+            } else {
+              comingEvents.push(event);
+            }
+          }
 
           const html = pugMainPageEvents({
-            activeEvents: activeEvents.slice(0,5),
-            comingEvents: comingEvents.slice(0,5)
+            activeEvents: activeEvents,
+            comingEvents: comingEvents
           });
           
           $(".loader").remove();
           $(".content").append(html);
+          
         });
     },
     

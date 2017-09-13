@@ -64,7 +64,7 @@
             prefix: 'img_',
             mediaScanner: true
           }, function(path) {
-            PhotoViewer.show(imageData);
+            PhotoViewer.show(path);
             $(document.body).madweek('changePage', 'index');
           }, function(err) {
             $(document.body).madweek('changePage', 'index');

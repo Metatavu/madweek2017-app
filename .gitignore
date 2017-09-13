@@ -16,3 +16,4 @@ npm-debug.log
 /google-services.json
 /GoogleService-Info.plist
 .netbeans.xml
+/private

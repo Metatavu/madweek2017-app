@@ -98,6 +98,11 @@ body {
 
   .index-card {
     margin-top: 15px;
+    
+    a {
+      display: inline-block;
+      width: 100%;
+    }
   }
 }
 
