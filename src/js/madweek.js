@@ -15,6 +15,20 @@
       $(this.element).madweekImage();
       $(this.element).madweekMap();
       
+      if (window.FirebasePlugin) {
+        window.FirebasePlugin.subscribe('eventstart', function() {
+          console.log("Subscribed to eventstart");
+        });
+        window.FirebasePlugin.subscribe('announcements', function() {
+          console.log("Subscribed to announcements");
+        });
+        window.FirebasePlugin.onNotificationOpen(function(notification) {
+            console.log("Received push notification");
+        }, function(error) {
+            console.error(error);
+        });
+      }
+      
       this.element.on('click', '.nav-item', $.proxy(this._onMenuItemClick, this));
       
       this.changePage('index', null);
